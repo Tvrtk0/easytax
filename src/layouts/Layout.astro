@@ -19,16 +19,19 @@ const navItems = [
 ];
 
 const homePath = localizedPath(lang, '/');
+const isRoot = currentPath === '/' || currentPath === '';
 
 function isActive(itemPath: string, current: string) {
   const normalized = current.replace(/\/$/, '') || '/';
   const normalizedItem = itemPath.replace(/\/$/, '') || '/';
+  // Root path "/" should highlight Home for the default lang
+  if (isRoot && normalizedItem === `${base}/${lang}`) return true;
   if (normalizedItem === `${base}/${lang}`) return normalized === `${base}/${lang}`;
   return normalized.startsWith(normalizedItem);
 }
 
 const otherLang: Lang = lang === 'en' ? 'hr' : 'en';
-const currentPagePath = currentPath.replace(`${base}/${lang}`, '') || '/';
+const currentPagePath = isRoot ? '/' : (currentPath.replace(`${base}/${lang}`, '') || '/');
 const switchLangPath = localizedPath(otherLang, currentPagePath);
 ---
 
