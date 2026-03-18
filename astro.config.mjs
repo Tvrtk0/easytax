@@ -4,7 +4,6 @@ import tailwind from '@astrojs/tailwind'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tvrtk0.github.io',
-  base: '/easytax',
+  site: 'https://easytax.hr',
   integrations: [tailwind()],
 })
