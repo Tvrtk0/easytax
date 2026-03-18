@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:scroll-bind-48736612.figma.site)",
+      "WebFetch(domain:www.figma.com)"
+    ]
+  }
+}
