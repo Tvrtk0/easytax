@@ -1,0 +1,140 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { t, localizedPath, languages, type Lang } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return languages.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const images = [
+  'https://images.unsplash.com/photo-1532662939046-f320195bbaf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9hdGlhJTIwZHVicm92bmlrJTIwYXJjaGl0ZWN0dXJlfGVufDF8fHx8MTc3Mzc3NjY4OXww&ixlib=rb-4.1.0&q=80&w=1080',
+  'https://images.unsplash.com/photo-1771758249853-415175dc29b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGRvY3VtZW50cyUyMGFjY291bnRpbmd8ZW58MXx8fHwxNzczNzc2NjkwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+  'https://images.unsplash.com/photo-1689171758335-1a3df08bca00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9hdGlhbiUyMGNvYXN0JTIwYWRyaWF0aWMlMjBzZWF8ZW58MXx8fHwxNzczNzc2Njg4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+  'https://images.unsplash.com/photo-1629709960788-26fbf4641910?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9hdGlhJTIwcGxpdHZpY2UlMjBsYWtlcyUyMG5hdHVyZXxlbnwxfHx8fDE3NzM3NzY2ODl8MA&ixlib=rb-4.1.0&q=80&w=1080',
+  'https://images.unsplash.com/photo-1667747812164-ff6ac58037cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGxpdCUyMGNyb2F0aWElMjB3YXRlcmZyb250fGVufDF8fHx8MTc3Mzc3NjY5MHww&ixlib=rb-4.1.0&q=80&w=1080',
+  'https://images.unsplash.com/photo-1673977597037-f0373625156e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBidWlsZGluZyUyMGV1cm9wZXxlbnwxfHx8fDE3NzM3NzY2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+];
+
+const categoryKeys = ['Legal', 'Tax', 'Business', 'Accounting', 'Tax', 'Legal'] as const;
+
+const articles = [1, 2, 3, 4, 5, 6].map((id, i) => ({
+  id: String(id),
+  title: t(lang, `article.${id}.title` as any),
+  excerpt: t(lang, `article.${id}.excerpt` as any),
+  date: t(lang, `article.${id}.date` as any),
+  readTime: t(lang, `article.${id}.readTime` as any),
+  category: categoryKeys[i],
+  image: images[i],
+}));
+
+const categories = [
+  t(lang, 'articles.cat.all'),
+  t(lang, 'articles.cat.legal'),
+  t(lang, 'articles.cat.tax'),
+  t(lang, 'articles.cat.accounting'),
+  t(lang, 'articles.cat.business'),
+];
+
+const featured = articles[0];
+const rest = articles.slice(1);
+---
+
+<Layout title={t(lang, 'articles.title')} lang={lang}>
+  <div class="py-12">
+    <section class="px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl mb-6 text-slate-900">{t(lang, 'articles.heading')}</h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto">{t(lang, 'articles.subtitle')}</p>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8 mb-12">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-wrap gap-3 justify-center">
+          {categories.map((category) => (
+            <button class="glass-button px-6 py-2.5 rounded-full hover:bg-white/40 transition-all">{category}</button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="max-w-7xl mx-auto">
+        <a href={localizedPath(lang, `/articles/${featured.id}`)}>
+          <div class="glass-card rounded-3xl overflow-hidden grid lg:grid-cols-2 gap-0 group hover:scale-[1.02] transition-transform duration-300">
+            <div class="relative h-[400px] lg:h-auto">
+              <img src={featured.image} alt={featured.title} class="w-full h-full object-cover" />
+              <div class="absolute top-6 left-6">
+                <span class="glass-button px-4 py-2 rounded-full text-sm">{t(lang, 'articles.featured')}</span>
+              </div>
+            </div>
+            <div class="p-8 lg:p-12 flex flex-col justify-center">
+              <div class="flex items-center gap-4 mb-4 text-sm text-slate-600">
+                <span class="glass-button px-3 py-1 rounded-full text-xs">{featured.category}</span>
+                <span class="flex items-center gap-2">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  {featured.date}
+                </span>
+                <span>{featured.readTime}</span>
+              </div>
+              <h2 class="text-3xl md:text-4xl mb-4 text-slate-900 group-hover:text-slate-700 transition-colors">{featured.title}</h2>
+              <p class="text-lg text-slate-600 mb-6">{featured.excerpt}</p>
+              <div class="flex items-center gap-2 text-slate-700 group-hover:gap-3 transition-all">
+                {t(lang, 'articles.readArticle')}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8 mb-16">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {rest.map((article) => (
+            <a href={localizedPath(lang, `/articles/${article.id}`)} class="glass-card rounded-3xl overflow-hidden group hover:scale-105 transition-transform duration-300">
+              <div class="relative h-64">
+                <img src={article.image} alt={article.title} class="w-full h-full object-cover" loading="lazy" />
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3 text-sm text-slate-600">
+                  <span class="glass-button px-3 py-1 rounded-full text-xs">{article.category}</span>
+                  <span class="flex items-center gap-1.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    {article.date}
+                  </span>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-900 mb-3 group-hover:text-slate-700 transition-colors">{article.title}</h3>
+                <p class="text-slate-600 mb-4">{article.excerpt}</p>
+                <div class="flex items-center gap-2 text-slate-700 text-sm">
+                  <span>{article.readTime}</span>
+                  <span>&bull;</span>
+                  <span class="flex items-center gap-1 group-hover:gap-2 transition-all">
+                    {t(lang, 'articles.readMore')}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="glass-card-prominent rounded-3xl p-12 text-center">
+          <h2 class="text-3xl md:text-4xl mb-4 text-slate-900">{t(lang, 'articles.newsletter.heading')}</h2>
+          <p class="text-lg text-slate-600 mb-8">{t(lang, 'articles.newsletter.subtitle')}</p>
+          <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input type="email" placeholder={t(lang, 'articles.newsletter.placeholder')} class="glass-input flex-1 px-6 py-3 rounded-full outline-none" />
+            <button class="glass-button-hero px-8 py-3 rounded-full whitespace-nowrap">{t(lang, 'articles.newsletter.button')}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

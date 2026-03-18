@@ -23,6 +23,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-## Panda
-styled-system
-styled-system-studio
+# Figma export (reference only)
+Business website for Easy Tax/

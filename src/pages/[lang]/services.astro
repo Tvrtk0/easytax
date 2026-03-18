@@ -1,0 +1,117 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { t, localizedPath, languages, type Lang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return languages.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const mainServices = [
+  {
+    title: t(lang, 'services.legal.title'),
+    description: t(lang, 'services.legal.desc'),
+    features: [t(lang, 'services.legal.f1'), t(lang, 'services.legal.f2'), t(lang, 'services.legal.f3'), t(lang, 'services.legal.f4'), t(lang, 'services.legal.f5')],
+    image: 'https://images.unsplash.com/photo-1673977597037-f0373625156e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBidWlsZGluZyUyMGV1cm9wZXxlbnwxfHx8fDE3NzM3NzY2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    iconPath: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+  },
+  {
+    title: t(lang, 'services.address.title'),
+    description: t(lang, 'services.address.desc'),
+    features: [t(lang, 'services.address.f1'), t(lang, 'services.address.f2'), t(lang, 'services.address.f3'), t(lang, 'services.address.f4'), t(lang, 'services.address.f5')],
+    image: 'https://images.unsplash.com/photo-1667747812164-ff6ac58037cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGxpdCUyMGNyb2F0aWElMjB3YXRlcmZyb250fGVufDF8fHx8MTc3Mzc3NjY5MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    iconPath: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z',
+  },
+  {
+    title: t(lang, 'services.tax.title'),
+    description: t(lang, 'services.tax.desc'),
+    features: [t(lang, 'services.tax.f1'), t(lang, 'services.tax.f2'), t(lang, 'services.tax.f3'), t(lang, 'services.tax.f4'), t(lang, 'services.tax.f5')],
+    image: 'https://images.unsplash.com/photo-1771758249853-415175dc29b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGRvY3VtZW50cyUyMGFjY291bnRpbmd8ZW58MXx8fHwxNzczNzc2NjkwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: t(lang, 'services.accounting.title'),
+    description: t(lang, 'services.accounting.desc'),
+    features: [t(lang, 'services.accounting.f1'), t(lang, 'services.accounting.f2'), t(lang, 'services.accounting.f3'), t(lang, 'services.accounting.f4'), t(lang, 'services.accounting.f5')],
+    image: 'https://images.unsplash.com/photo-1689171758335-1a3df08bca00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9hdGlhbiUyMGNvYXN0JTIwYWRyaWF0aWMlMjBzZWF8ZW58MXx8fHwxNzczNzc2Njg4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    iconPath: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+  },
+];
+
+const benefits = [
+  { title: t(lang, 'services.benefits.international.title'), description: t(lang, 'services.benefits.international.desc'), iconPath: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' },
+  { title: t(lang, 'services.benefits.compliance.title'), description: t(lang, 'services.benefits.compliance.desc'), iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+  { title: t(lang, 'services.benefits.time.title'), description: t(lang, 'services.benefits.time.desc'), iconPath: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { title: t(lang, 'services.benefits.support.title'), description: t(lang, 'services.benefits.support.desc'), iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+];
+---
+
+<Layout title={t(lang, 'services.title')} lang={lang}>
+  <div class="py-12">
+    <section class="px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl mb-6 text-slate-900">{t(lang, 'services.heading')}</h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto">{t(lang, 'services.subtitle')}</p>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="max-w-7xl mx-auto space-y-20">
+        {mainServices.map((service, index) => (
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class={index % 2 === 1 ? 'lg:order-2' : ''}>
+              <div class="glass-icon-bg w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={service.iconPath} />
+                </svg>
+              </div>
+              <h2 class="text-3xl md:text-4xl mb-4 text-slate-900">{service.title}</h2>
+              <p class="text-lg text-slate-600 mb-6">{service.description}</p>
+              <ul class="space-y-3">
+                {service.features.map((feature) => (
+                  <li class="flex items-start gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2.5 flex-shrink-0"></div>
+                    <span class="text-slate-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class={`relative h-[500px] rounded-3xl overflow-hidden ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              <img src={service.image} alt={service.title} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8 mb-20">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl mb-12 text-center text-slate-900">{t(lang, 'services.benefits.heading')}</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {benefits.map((benefit) => (
+            <div class="glass-card p-8 rounded-3xl text-center">
+              <div class="glass-icon-bg w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={benefit.iconPath} />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-slate-900 mb-3">{benefit.title}</h3>
+              <p class="text-slate-600">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="glass-card-prominent rounded-3xl p-12 text-center">
+          <h2 class="text-3xl md:text-4xl mb-4 text-slate-900">{t(lang, 'services.cta.heading')}</h2>
+          <p class="text-lg text-slate-600 mb-8">{t(lang, 'services.cta.subtitle')}</p>
+          <a href={localizedPath(lang, '/contact')} class="glass-button-hero px-8 py-4 rounded-full inline-block">{t(lang, 'services.cta.button')}</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
